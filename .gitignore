@@ -1,0 +1,4 @@
+*~
+.DS_Store
+.vagrant
+app/credentials.js
