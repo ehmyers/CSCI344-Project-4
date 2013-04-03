@@ -1,0 +1,10 @@
+local json file for happy and sad words?
+
+.getJSON and have the client determine what the html should look like
+
+wrap in a 
+setInterval(function () {
+	.getJSON(...)
+}, 5000);
+
+create a service for interactivity and database
