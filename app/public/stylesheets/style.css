@@ -1,7 +1,29 @@
+body {
+	background-image: url("/../wavegrid.png");
+	font-family: 'Tauri', sans-serif;
+}
+
 .happy-words {
 	float: left;
+	width: 38%;
+	padding: 5%;
+	margin: 1% .5% 1% 1%;
+	background-color: #d7e8ff;
+	opacity: .8;
 }
 
 .sad-words {
-	float:right;
+	float:left;
+	width: 38%;
+	padding: 5%;
+	margin: 1% 1% 1% .5%;
+	background-color: #110000;
+	color: #dddddd;
+	opacity: .8;
+
+}
+
+.words {
+	position: absolute;
+	width: 100%;
 }

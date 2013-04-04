@@ -1,32 +1,32 @@
 var main = function () {
     var happyCount = 0
         , sadCount = 0;
-        
-    setInterval(function() {
-        $("body").empty();
+
+    //setInterval(function() {
+        $("div > happy-words").empty();
         // happy words
-        $.getJSON("/counts.json", function (happyResponse) {
-            $("body").append("<div class='happy-words'><h1>happy words<h1>");
+        $.getJSON("/happyCounts.json", function (happyResponse) {
+            $(".happy-words").append("<h1>happy words</h1>");
             happyResponse.forEach(function(elt) {
                 // tallies up the total happy count
-                //happyCount = happyCount + elt.count;
-                console.log(elt.count);
-                $("body").append("<p>" + elt.key + ": " + elt.count + "</p>");
+                //happyCount = happyCount + parseInt(elt.count, 10);
+                $(".happy-words").append("<p>" + elt.key + ": " + elt.count + "</p>");
             });
-            $("body").append("<p>total happy word count: " + happyCount + "</p></div>");
+            $(".happy-words").append("<p>total happy word count: " + happyCount + "</p>");
+
         });
+        $("div > sad-words").empty();
         // sad words
-        $.getJSON("/counts.json", function (sadResponse) {
-            $("body").append("<div class='sad-words'><h1>sad words<h1>");
+        $.getJSON("/sadCounts.json", function (sadResponse) {
+            $(".sad-words").append("<h1>sad words<h1>");
             sadResponse.forEach(function(elt) {
                 // tallies up the total sad count
-                //sadCount = sadCount + elt.count;
-                console.log(elt.count);
-                $("body").append("<p>" + elt.key + ": " + elt.count + "</p>");
+                //sadCount = sadCount + parseInt(elt.count, 10);
+                $(".sad-words").append("<p>" + elt.key + ": " + elt.count + "</p>");
             });
-            $("body").append("<p>total sad word count: " + sadCount + "</p></div>");
+            $(".sad-words").append("<p>total sad word count: " + sadCount + "</p>");
         });
-    }, 500);
+    //}, 500);
 };
 
 $(document).ready(main);

@@ -1,10 +1,14 @@
 var worker = function (trackedWords) {
-    var twitter = require('ntwitter')
-        , redis = require('redis')
-        , credentials = require('./credentials.js');
+    var twitter = require("ntwitter")
+        , redis = require("redis")
+        , credentials = require("./credentials.js");
 
     //create redis client                                                                                                                                                                                              
     var client = redis.createClient();
+
+    // count trackers
+    var totalHappySeen = 0
+        , totalSadSeen = 0;
 
     var t = new twitter({
         consumer_key: credentials.consumer_key,
@@ -14,14 +18,26 @@ var worker = function (trackedWords) {
     });
 
     t.stream(
-        'statuses/filter',
+        "statuses/filter",
         { track: trackedWords },
         function(stream) {
-            stream.on('data', function(tweet) {
+            stream.on("data", function(tweet) {
                 trackedWords.forEach(function(word) {
-                    if(tweet.text.indexOf(word) > -1) {
-                        //console.log("incrementing " + word);
-                        client.incr(word);
+                    if (word.sentiment === "happy") {
+                        console.log(tweet);
+                        if(tweet.text.indexOf(word) > -1) {
+                            client.incr(word);
+                            client.incr("totalHappySeen");
+                        }
+                    }
+                });
+                trackedSadWords.forEach(function(word) {
+                    if (word.sentiment === "sad") {
+                        console.log(tweet);
+                        if(tweet.text.indexOf(word) > -1) {
+                            client.incr(word);
+                            client.incr("totalSadSeen");
+                        }
                     }
                 });
             });
