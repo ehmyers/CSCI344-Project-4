@@ -16,26 +16,30 @@ var worker = function (trackedWords) {
         access_token_key: credentials.access_token_key,
         access_token_secret: credentials.access_token_secret
     });
-
+    
+    var keys = []
+        , i;
+    for (i = 0; i < trackedWords.length; i += 1) {
+        keys.push(trackedWords[i].word);
+    }
+    
     t.stream(
         "statuses/filter",
-        { track: trackedWords },
+        { track: keys },
         function(stream) {
             stream.on("data", function(tweet) {
-                trackedWords.forEach(function(word) {
-                    if (word.sentiment === "happy") {
-                        console.log(tweet);
-                        if(tweet.text.indexOf(word) > -1) {
-                            client.incr(word);
+                trackedWords.forEach(function(wordObj) {
+                    if (wordObj.sentiment === "happy") {
+                        if(tweet.text.indexOf(wordObj.word) > -1) {
+                            client.incr(wordObj.word);
                             client.incr("totalHappySeen");
                         }
                     }
                 });
-                trackedSadWords.forEach(function(word) {
-                    if (word.sentiment === "sad") {
-                        console.log(tweet);
-                        if(tweet.text.indexOf(word) > -1) {
-                            client.incr(word);
+                trackedWords.forEach(function(wordObj) {
+                    if (wordObj.sentiment === "sad") {
+                        if(tweet.text.indexOf(wordObj.word) > -1) {
+                            client.incr(wordObj.word);
                             client.incr("totalSadSeen");
                         }
                     }

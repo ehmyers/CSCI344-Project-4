@@ -14,7 +14,7 @@ trackedWords = [
     {"word":"bummer", "sentiment":"sad"},
     {"word":"unhappy", "sentiment":"sad"},
     {"word":"morose", "sentiment":"sad"},
-    {"word":"pumpkin", "sentiment":"sad"},
+    {"word":"plum", "sentiment":"sad"},
     {"word":"pain", "sentiment":"sad"}
 ];
 
@@ -40,7 +40,13 @@ app.get("/", function (req, res) {
 });
 
 app.get("/happyCounts.json", function (req, res) {
-    redisClient.mget(trackedWords, function (error, count) {
+    // array of strings to pass to mget
+    var keys = []
+        , i;
+    for (i = 0; i < trackedWords.length; i += 1) {
+        keys.push(trackedWords[i].word);
+    }
+    redisClient.mget(keys, function (error, count) {
         if (error !== null) {
                 // handle error here                                                                                                                       
                 console.log("ERROR: " + error);
@@ -60,13 +66,26 @@ app.get("/happyCounts.json", function (req, res) {
                     });
                 }
             }
-            res.json(happyResult);
+            redisClient.get("totalHappySeen", function(error, totalHappy) {
+                res.json({
+                    "happySack": happyResult,
+                    "happyCount": totalHappy
+                });
+            });
         }
     });
 });
 
 app.get("/sadCounts.json", function (req, res) {
-    redisClient.mget(trackedWords, function (error, count) {
+    // array of strings to pass to mget
+    var keys = []
+        , i;
+    for (i = 0; i < trackedWords.length; i += 1) {
+        keys.push(trackedWords[i].word);
+    }
+    console.log(keys);
+    redisClient.mget(keys, function (error, count) {
+        console.log(count);
         if (error !== null) {
                 // handle error here                                                                                                                       
                 console.log("ERROR: " + error);
@@ -74,7 +93,7 @@ app.get("/sadCounts.json", function (req, res) {
         else {
             // sad words
             var sadResult = []
-                , i;
+              , i;
 
             for (i = 0; i < trackedWords.length; i = i + 1) {
                 if (trackedWords[i].sentiment === "sad") {
@@ -84,7 +103,13 @@ app.get("/sadCounts.json", function (req, res) {
                     });
                 }
             }
-            res.json(sadResult);
+
+            redisClient.get("totalSadSeen", function(error, totalSad) {
+                res.json({
+                    "sadSack": sadResult,
+                    "sadCount": totalSad
+                });
+            });
         }
     });
 });

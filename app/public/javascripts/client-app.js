@@ -1,32 +1,26 @@
 var main = function () {
-    var happyCount = 0
-        , sadCount = 0;
 
-    //setInterval(function() {
-        $("div > happy-words").empty();
+    setInterval(function() {
+        $(".happy-words").empty();
         // happy words
-        $.getJSON("/happyCounts.json", function (happyResponse) {
+        $.getJSON("/happyCounts.json", function (response) {
             $(".happy-words").append("<h1>happy words</h1>");
-            happyResponse.forEach(function(elt) {
-                // tallies up the total happy count
-                //happyCount = happyCount + parseInt(elt.count, 10);
-                $(".happy-words").append("<p>" + elt.key + ": " + elt.count + "</p>");
+            response.happySack.forEach(function(elt) {
+                $(".happy-words").append("<p>" + elt.key.word + ": " + elt.count + "</p>");
             });
-            $(".happy-words").append("<p>total happy word count: " + happyCount + "</p>");
+            $(".happy-words").append("<p>total happy word count: " + response.happyCount + "</p>");
 
         });
-        $("div > sad-words").empty();
+        $(".sad-words").empty();
         // sad words
-        $.getJSON("/sadCounts.json", function (sadResponse) {
+        $.getJSON("/sadCounts.json", function (response) {
             $(".sad-words").append("<h1>sad words<h1>");
-            sadResponse.forEach(function(elt) {
-                // tallies up the total sad count
-                //sadCount = sadCount + parseInt(elt.count, 10);
-                $(".sad-words").append("<p>" + elt.key + ": " + elt.count + "</p>");
+            response.sadSack.forEach(function(elt) {
+                $(".sad-words").append("<p>" + elt.key.word + ": " + elt.count + "</p>");
             });
-            $(".sad-words").append("<p>total sad word count: " + sadCount + "</p>");
+            $(".sad-words").append("<p>total sad word count: " + response.sadCount + "</p>");
         });
-    //}, 500);
+    }, 2000);
 };
 
 $(document).ready(main);
