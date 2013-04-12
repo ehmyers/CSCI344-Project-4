@@ -1,6 +1,6 @@
 {
-    "name": "tutorial",
-    "description": "a tutorial on using node, twitter, redis, and express",
+    "name": "twitter sentiment tracker",
+    "description": "creating a twitter sentiment tracker",
     "version": "0.0.1",
     "dependencies": {
 				"express": "3.1.x",
