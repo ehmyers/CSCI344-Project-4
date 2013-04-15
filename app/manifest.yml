@@ -1,9 +1,14 @@
 --- 
 applications: 
-- memory: 64M
-  name: twitter-sentiment-ehmyers
-  url: twitter-sentiment-ehmyers.${target-base}
+- framework: node
+  memory: 64M
+  url: twitter-ehmyers.${target-base}
   path: .
   instances: 1
   runtime: node
-  framework: node
+  services: 
+    redis-91bbf: 
+      vendor: redis
+      version: "2.2"
+      tier: free
+  name: twitter-ehmyers

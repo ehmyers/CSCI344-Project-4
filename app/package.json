@@ -1,9 +1,9 @@
 {
-    "name": "twitter sentiment tracker",
+    "name": "twitter-sentiment-tracker",
     "description": "creating a twitter sentiment tracker",
     "version": "0.0.1",
     "dependencies": {
-				"express": "3.1.x",
+        "express": "3.1.x",
         "ntwitter": "0.5.x",
         "redis": "0.8.x"
     }
